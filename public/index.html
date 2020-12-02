@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tetris Game</title>
+    <link href="https://fonts.googleapis.com/css2?family=Odibee+Sans&display=swap" rel="stylesheet"> 
+    <link href="styles.css" type="text/css" rel="stylesheet">
+    <link rel="icon" href="images/Tetris-2-512.webp" type="image/png" sizes="16x16">
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+</head>
+<body>
+    <header>
+        <h1 class="welcome-message">Welcome</h1>
+        <img class="thumbnail_image"/>
+    </header>
+    <div class="control_buttons">
+        <a href="/api/logout">Logout</a>
+        <a class="display_score">Score : 0</a>
+        <a class="high_score">High Score</a>
+        <a class="pause_button">Pause</a>
+    </div>
+    <canvas id="tetris" width="400px" height="540px"></canvas>
+    <script src="tetrominoes.js"></script>
+    <script src="tetris.js"></script>
+</body>
+</html>
