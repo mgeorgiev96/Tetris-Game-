@@ -76,9 +76,7 @@ header .thumbnail_image{
     color: white;
     border: 1px solid white;
 }
-.error_image{
-    background-color: lightblue;
-}
+
 .error_container{
     width: 100vw;
     height: 100vh;
@@ -89,6 +87,7 @@ header .thumbnail_image{
     align-items: center;
     font-size: 2.1rem;
     color: white;
+    background-image: url('./images/hexagon.png');
 }
 .error_container a{
     text-decoration: none;

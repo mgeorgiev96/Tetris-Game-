@@ -3,6 +3,7 @@ body,html{
     margin: 0;
     height: 100vh;
     width: 100vw;
+    font-family: 'JetBrains Mono', monospace;
 }
 
 .container-fluid{
@@ -25,7 +26,7 @@ body,html{
     position: absolute;
     top: 0;
     left: 0;
-    background-image: url("/images/tetris-effect-normal-hero-01-ps4-us-05jun18.jpg");
+    background-image: url("/images/hexagon.png");
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
@@ -81,7 +82,7 @@ form .google-login{
     padding: 10px 0;
     color: white;
     background-color: darkred;
-    width: 50%;
+    width: 20%;
     align-self: center;
     text-decoration: none;
 }
@@ -90,6 +91,12 @@ form .google-login{
 form .google-login:visited{
     padding: 10px 5px;
     color: white;
+    
+}
+form .google-login:hover{
+    color: darkred;
+    background-color: white;
+    transition: 250ms;
     
 }
 
