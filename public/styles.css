@@ -109,3 +109,13 @@ header .thumbnail_image{
     background: darkred;
     transition: 450ms;
 }
+
+@media all and (max-width: 550px){
+    .control_buttons{
+        font-size: 1.5rem;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin-bottom: 20px;
+    }
+}
