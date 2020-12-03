@@ -94,16 +94,18 @@ header .thumbnail_image{
     background-color: white;
     border-radius: 10px;
     border: 1px solid white;
-    color: lightblue;
+    color: darkred;
     font-weight: bold;
     padding: 5px 10px;
 }
 
 .error_container a:visited{
-    color: lightblue;
+    color: darkred;
 }
 
 .error_container a:hover{
-    transform: scale(0.95);
+    transform: scale(0.99);
+    color: white;
+    background: darkred;
     transition: 450ms;
 }
