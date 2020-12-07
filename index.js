@@ -6,9 +6,8 @@ const passport = require('passport')
 const passportSetup = require('./config/passport-setup')
 const basicRouter = require('./routes/basic-routes')
 const mongoose = require('mongoose')
+const cookieSession = require('cookie-session')
 const path = require('path')
-const session = require('express-session')
-const sessionID = require('uniqid')
 
 mongoose.connect(process.env.MONGO_DB,{ useUnifiedTopology: true , useNewUrlParser: true } )
 
@@ -17,10 +16,9 @@ app.use(express.json())
 app.set('view engine', 'ejs')
 
 
-app.use(session({
-    secret:  sessionID(),
-    resave: false,
-    saveUninitialized: true
+app.use(cookieSession({
+    maxAge: 24 * 60 * 60 * 1000,
+    keys: ['tetris2h01-app2929200=2x922']
 }))
 
 app.use(passport.initialize())
@@ -42,7 +40,7 @@ app.get('/not-authorized',(req,res)=>{
 app.use(express.static(path.join(__dirname,'/public')))
 
 const userAuth = (req,res,next)=>{
-    if(!req.user && !session.user){
+    if(!req.user && !req.session.user){
         res.redirect('/')
     }else{
         next()

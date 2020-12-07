@@ -2,12 +2,11 @@ const router = require('express').Router()
 const passport = require('passport')
 const bcrypt = require('bcrypt')
 const User = require('../models/model')
-const session = require('express-session')
 
 router.get('/logout',(req,res)=>{
 
     req.logout()
-    session.user = null
+    req.session.user = null
     res.redirect("/")
 
 })
@@ -15,7 +14,7 @@ router.get('/logout',(req,res)=>{
 
 router.get('/info',(req,res)=>{
     if(!req.user){
-        res.json(session.user)
+        res.json(req.session.user)
     }else{
         res.json(req.user)
     }
@@ -30,13 +29,13 @@ router.post('/scores',(req,res)=>{
             if(req.user){
                 req.user = user
             }else{
-                session.user = user
+                req.session.user = user
             }
         }).then(()=>{
             if(req.user){
                 res.json(req.user)
             }else{
-                res.json(session.user)
+                res.json(req.session.user)
             }
         })
     }).catch(err=>console.log(err))
@@ -70,7 +69,7 @@ router.post('/login',(req,res)=>{
             bcrypt.compare(req.body.password,user.password,(err,result)=>{
                 if(result){
                     req.logout()
-                    session.user = {
+                    req.session.user = {
                         username: user.username,
                         name: user.name,
                         thumbnail: user.thumbnail,
@@ -94,7 +93,7 @@ router.get('/google',passport.authenticate('google',{
 }))
 
 router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
-    session.user = null
+    req.session.user = null
     res.redirect('/profile')
 })
 module.exports = router
