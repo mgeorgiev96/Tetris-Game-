@@ -1,8 +1,7 @@
 
-
-
 const canvas = document.getElementById('tetris')
 const ctx = canvas.getContext('2d')
+
 
 ctx.scale(20,20)
 let randomFirst = Math.floor(Math.random()* 7)
@@ -86,7 +85,7 @@ function draw (matrix,offset){
     }  
 }
 
-const arena = createMatrix(20,27)
+let arena = createMatrix(20,27)
 
 
 
@@ -98,24 +97,35 @@ function createMatrix(w,h){
     return matrix
 }
 
-function merge(arena,player){
+function merge(a,player){
     choosePiece.forEach((row,y)=>{
         row.forEach((value,x)=>{
             if(value!==0){
-                if(arena[y+player.y]===undefined){
-                    let checkScore = prompt(`Game Over. Save Score? Enter description. `)
-                    if(checkScore!==null){
-                        $.post('/api/scores',{
-                            username: email,
-                            current: score,
-                            description: checkScore
-                        },window.location.reload())
-                    }else{
-                        window.location.reload()
-                    }
-
+                if(a[y+player.y]===undefined){
+                        arena = createMatrix(20,27)
+                        alert(`Game Over. Score: ${score}.`)
+                        fetch('/api/scores', {
+                            method: 'POST', 
+                            mode: 'cors', 
+                            cache: 'no-cache',
+                            credentials: 'same-origin',
+                            headers: {
+                              'Content-Type': 'application/json'
+                            },
+                            redirect: 'follow',
+                            referrerPolicy: 'no-referrer',
+                            body: JSON.stringify({
+                                username: email,
+                                current: score
+                            })
+                          }).then(res=>res.json()).then(res=>{
+                            let high_score = document.querySelector('.high_score')
+                            high_score.innerHTML = `High Score - ${Math.max(...res.scores)}`
+                            score = 0
+                            followScore()
+                          })
                 }else{
-                    arena[y+player.y][x+player.x] = value
+                    a[y+player.y][x+player.x] = value
                 }
             }
         })
@@ -131,6 +141,7 @@ function dropCounter (time=0){
 
     }
 }
+
 
 (function update (){
 
