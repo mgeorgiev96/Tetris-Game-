@@ -30,19 +30,30 @@ pause_button.addEventListener('click',pauseGame)
 fetch('/api/info',{
     "Content-Type": "application/json"
 },).then(i=>i.json()).then(user=>{
-    let welcome = document.querySelector('.welcome-message')
-    let high_score = document.querySelector('.high_score')
-    welcome.innerHTML = `Welcome ${user.name}`
-    email = user.username
-    if(Math.max(...user.scores)===-Infinity){
-        high_score.innerHTML = `High Score - 0`
+    if(!user){
+        let welcome = document.querySelector('.welcome-message')
+        let high_score = document.querySelector('.high_score')
+        let logout = document.querySelector('.logout')
+        welcome.style.display = 'none'
+        high_score.style.display = 'none'
+        logout.style.display = 'none'
     }else{
-        high_score.innerHTML = `High Score - ${Math.max(...user.scores)}`
-    }
-    if(user.thumbnail!=='n/a'){
-        thumbnail_image.src = user.thumbnail
-    }else{
-        thumbnail_image.src = user.thumbnail = '/images/account_friend_human_man_member_person_profile_user_users-512.webp'
+        let welcome = document.querySelector('.welcome-message')
+        let high_score = document.querySelector('.high_score')
+        let login = document.querySelector('.login')
+        login.style.display = 'none'
+        welcome.innerHTML = `Welcome ${user.name}`
+        email = user.username
+        if(Math.max(...user.scores)===-Infinity){
+            high_score.innerHTML = `High Score - 0`
+        }else{
+            high_score.innerHTML = `High Score - ${Math.max(...user.scores)}`
+        }
+        if(user.thumbnail!=='n/a'){
+            thumbnail_image.src = user.thumbnail
+        }else{
+            thumbnail_image.src = user.thumbnail = '/images/account_friend_human_man_member_person_profile_user_users-512.webp'
+        }
     }
 })
 
@@ -104,26 +115,31 @@ function merge(a,player){
                 if(a[y+player.y]===undefined){
                         arena = createMatrix(20,27)
                         alert(`Game Over. Score: ${score}.`)
-                        fetch('/api/scores', {
-                            method: 'POST', 
-                            mode: 'cors', 
-                            cache: 'no-cache',
-                            credentials: 'same-origin',
-                            headers: {
-                              'Content-Type': 'application/json'
-                            },
-                            redirect: 'follow',
-                            referrerPolicy: 'no-referrer',
-                            body: JSON.stringify({
-                                username: email,
-                                current: score
-                            })
-                          }).then(res=>res.json()).then(res=>{
-                            let high_score = document.querySelector('.high_score')
-                            high_score.innerHTML = `High Score - ${Math.max(...res.scores)}`
+                        if(email){
+                            fetch('/api/scores', {
+                                method: 'POST', 
+                                mode: 'cors', 
+                                cache: 'no-cache',
+                                credentials: 'same-origin',
+                                headers: {
+                                  'Content-Type': 'application/json'
+                                },
+                                redirect: 'follow',
+                                referrerPolicy: 'no-referrer',
+                                body: JSON.stringify({
+                                    username: email,
+                                    current: score
+                                })
+                              }).then(res=>res.json()).then(res=>{
+                                let high_score = document.querySelector('.high_score')
+                                high_score.innerHTML = `High Score - ${Math.max(...res.scores)}`
+                                score = 0
+                                followScore()
+                              })
+                        }else{
                             score = 0
                             followScore()
-                          })
+                        }
                 }else{
                     a[y+player.y][x+player.x] = value
                 }

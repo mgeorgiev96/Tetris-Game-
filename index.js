@@ -18,7 +18,7 @@ app.set('view engine', 'ejs')
 
 app.use(cookieSession({
     maxAge: 24 * 60 * 60 * 1000,
-    keys: ['tetris2h01-app2929200=2x922']
+    keys: [process.env.SECRET_KEY]
 }))
 
 app.use(passport.initialize())
@@ -29,6 +29,9 @@ app.use('/api',basicRouter)
 
 
 app.get('/',(req,res)=>{
+    res.sendFile(path.join(__dirname,'public/index.html'))
+})
+app.get('/login-page',(req,res)=>{
     res.render('login')
 })
 app.get('/error',(req,res)=>{
@@ -38,18 +41,6 @@ app.get('/not-authorized',(req,res)=>{
     res.render('missing')
 })
 app.use(express.static(path.join(__dirname,'/public')))
-
-const userAuth = (req,res,next)=>{
-    if(!req.user && !req.session.user){
-        res.redirect('/')
-    }else{
-        next()
-    }
-}
-
-app.get('/profile',userAuth,(req,res)=>{
-    res.sendFile(path.join(__dirname,'public/index.html'))
-})
 
 
 app.listen(PORT,()=>console.log(`Server is running on port ${PORT}`))

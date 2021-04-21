@@ -4,11 +4,9 @@ const bcrypt = require('bcrypt')
 const User = require('../models/model')
 
 router.get('/logout',(req,res)=>{
-
     req.logout()
     req.session.user = null
     res.redirect("/")
-
 })
 
 
@@ -63,6 +61,8 @@ router.post('/signup/user',(req,res)=>{
     })
 })
 
+
+
 router.post('/login',(req,res)=>{
     User.findOne({username:req.body.username}).then(user=>{
         if(user){
@@ -75,7 +75,7 @@ router.post('/login',(req,res)=>{
                         thumbnail: user.thumbnail,
                         scores: user.scores
                     }
-                    res.redirect('/profile')
+                    res.redirect('/')
                 }else{
                     res.redirect('/error')
                 }
@@ -94,6 +94,6 @@ router.get('/google',passport.authenticate('google',{
 
 router.get('/google/redirect',passport.authenticate('google'),(req,res)=>{
     req.session.user = null
-    res.redirect('/profile')
+    res.redirect('/')
 })
 module.exports = router
